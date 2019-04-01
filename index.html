@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Contact us</title>
+</head>
+<body onload="init()">
+    <h1>Contact</h1>
+
+    <div>Enter your phone number here: </div>
+    <br>
+    <button id="decrement"> < </button> <span id="number">0000000000</span> <button id="increment"> > </button>
+    <button id="submit">submit</button>
+    <br><br>
+    <div>Your feedback is very important to us. Please leave us your phone number and we'll drop you a line. Expect a call within the next 300,000 business days from our super secret admin phone number, 3584252582.</div>
+
+    <script>
+        window.encodedFlag = [68, 66, 84, 88, 80, 81, 73, 86, 80, 82, 109, 65, 73, 105, 86, 81, 66, 95, 85, 90, 110, 95, 65, 107, 68, 88, 86, 81, 67, 68, 83, 64, 84, 82, 79];
+        function init() {
+            var phoneNumber = 0;
+
+            function printFlag() {
+                var secretKey = phoneNumber;
+                
+                for(let char of "super-secret-key".split('')){
+                    secretKey += char.charCodeAt(0);
+                    secretKey %= phoneNumber;
+                }
+
+                secretKey = ("" + secretKey).split('').map((str) => str.charCodeAt(0));
+
+                var decrypted = window.encodedFlag.map((char, index) => (char ^ secretKey[index % secretKey.length])).map((charCode) => String.fromCharCode(charCode)).join('');
+
+                document.write(decrypted);
+            }
+
+            function updatePhoneNumber() {
+                document.getElementById("number").innerHTML = ("" + phoneNumber).padStart(10, '0');
+                if(phoneNumber === 3584252582){
+                    printFlag();
+                }
+            }
+
+            function decrement() {
+                if(phoneNumber >= 1)
+                    phoneNumber--;
+                updatePhoneNumber();
+            }
+
+            function increment() {
+                phoneNumber++;
+                updatePhoneNumber();
+            }
+
+            document.getElementById('decrement').onclick = decrement;
+            document.getElementById('increment').onclick = increment;
+        }
+    </script>
+</body>
+</html>
